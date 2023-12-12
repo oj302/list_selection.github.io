@@ -1,8 +1,7 @@
 
-function tellEm()
-{
-    alert("page loaded");
-}
+
+
+
 
 window.addEventListener('load', function() 
 {
