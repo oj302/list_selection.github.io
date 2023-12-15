@@ -1,22 +1,20 @@
 
-function xxx(outt)
-{
-    console.log(outt);
-}
 
 function addToTable(tRef, shop, item, weight, colour)
 {
-    var row = tRef.insertRow(-1);
+    let row = tRef.insertRow(-1);
+    row.className = "tableRow";
+    if(odd) {  row.className += " odd"; }
 
-    var shopCell = row.insertCell(0);
-    var itemCell = row.insertCell(1);
-    var weightCell = row.insertCell(2);
-    var colourCell = row.insertCell(3);
+    const values = [shop, item, weight, colour];
 
-    shopCell.innerHTML = shop;
-    itemCell.innerHTML = item;
-    weightCell.innerHTML = weight;
-    colourCell.innerHTML = colour;
+    for(let i = 0; i < 4; i++)
+    {
+        let cell = row.insertCell(i);
+        cell.innerHTML = values[i];
+        cell.className = "cell";
+    }
+
 }
 
 function resetTable(theadRef, tbodyRef)
@@ -35,29 +33,28 @@ function resetTable(theadRef, tbodyRef)
 function addShop(shopName, hashMap, example, onTick)
 {
     let newShopDiv = example.cloneNode(true);
-    let box = newShopDiv.getElementsByTagName('input')[0];
     let label = newShopDiv.getElementsByTagName('label')[0];
+    let box = label.getElementsByTagName('input')[0];
     example.before(newShopDiv);
 
     newShopDiv.id = shopName;
     box.id = shopName + ' box';
     label.for = box.id;
-    label.innerHTML = shopName;
+    console.log(label.innerHTML);
+    label.innerHTML += shopName;
 
     newShopDiv.hidden = false;
 
     hashMap.set(shopName, box.id);
 
-    box.addEventListener('change', function()
+    label.addEventListener('change', function()
     {
-        // outputTable(filePath, tbodyRef, theadRef, document.getElementById("vehicle2").checked);
         onTick();
     });
 }
 
 function outputTable(filePath, theadRef, tbodyRef, shopMap)
 {
-    console.log("ouputing table");
     fetch(filePath)
         .then(response => response.text())
         .then(csvData => 
@@ -67,14 +64,27 @@ function outputTable(filePath, theadRef, tbodyRef, shopMap)
 
             resetTable(theadRef, tbodyRef);
 
-            addToTable(theadRef, rows[0][0], rows[0][1], rows[0][2], rows[0][3]);
-            
+            // set the table head based on the first row from file
+            let row = theadRef.insertRow(-1);
+            row.className = "tableRow header";
+
+            for(let i = 0; i < 4; i++)
+            {
+                let cell = row.insertCell(i);
+                cell.innerHTML = rows[0][i];
+                cell.className = "headCell";
+            }
+
+            // for colouring
+            odd = true;
+            // set the rest of the table rows
             for(let i = 1; i < rows.length -1; i++)
             {
                 const currentRow = rows[i];
                 if( document.getElementById(shopMap.get(currentRow[0])).checked )
                 {
-                    addToTable(tbodyRef, currentRow[0], currentRow[1], currentRow[2], currentRow[3]);
+                    addToTable(tbodyRef, currentRow[0], currentRow[1], currentRow[2], currentRow[3], odd);
+                    odd = !odd;
                 }
             }
         })
@@ -98,7 +108,7 @@ function setShops(filePath, shopMap, theadRef, tbodyRef)
                 const shopName = rows[i][0];
                 if(shopMap.get(shopName) == undefined)
                 {
-                    addShop(shopName, shopMap, document.getElementById("Original Shop Div"), function()
+                    addShop(shopName, shopMap, document.getElementById("OriginalShopDiv"), function()
                     // { console.log("its working"); });
                     //*
                     {

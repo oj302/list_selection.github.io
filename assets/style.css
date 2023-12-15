@@ -1,0 +1,124 @@
+
+
+
+/* BOXES */
+
+#checkboxHolder
+{
+    /* position: sticky;
+    /* background-color: orange; */
+    width: 100%;
+    /* display: grid; */
+}
+
+/* */
+.boxHolders
+{
+    /* display: inline-block; */
+    /* position: absolute;
+    /* display: table; */
+    background-color: #fff;
+    border: 3px solid orange;
+    border-radius: 50px;
+    padding: 10px 15px;
+    text-align: center;
+    display: inline-block;
+    font-size: 20px;
+    font-family: Helvetica;
+    font-weight: bold;
+    color: orange;
+    margin: 15px 15px;
+    transition: 0.2s;
+}
+/* */ 
+
+.boxHolders:has(.checkbox:checked)
+{
+    background-color: orange;
+    color: white;
+    transition: 0.2s;
+}
+
+#OriginalShopDiv
+{
+    display: none;
+}
+
+
+.label
+{
+    width: 100%;
+    user-select: none;
+    cursor: pointer;
+}
+
+.checkbox
+{
+    display: none;
+}
+
+
+
+/* MEAT */
+
+#theMeat
+{
+    position: absolute;
+    width: 60%;
+    left: 20%;
+    background-color: yellow;
+}
+
+#mainTable
+{
+    position: relative;
+    width: 100%;
+    table-layout: auto;
+    border-collapse: collapse;
+    border: 3px solid black;
+}
+
+.tableRow
+{
+    background-color: rgb(245, 245, 245);
+    text-align: center;
+    height: 40px;
+    border: 2px solid rgb(138, 138, 138); 
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.odd
+{
+    background-color: rgb(205, 205, 205);
+}
+
+.header
+{
+    background-color: rgb(144, 44, 44);
+    color: white;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.cell
+{
+    text-align: center;
+    position: static;
+    width: 25%;
+    border: 1px solid black;
+}
+
+
+/* EXTRAS */
+
+.trianlge
+{
+    position: absolute;
+    fill: rgba(255, 166, 0, 0.5);
+    width: 200%;
+}
+
+.off
+{
+    transform: translate(20px, -10px);
+}
