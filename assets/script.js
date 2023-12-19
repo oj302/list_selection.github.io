@@ -130,7 +130,6 @@ function setShops(filePath, theadRef, tbodyRef, shopMap, itemMap)
 
 window.addEventListener('load', function()
 {
-    this.alert("page loaded");
 
     // const exampleBox = document.getElementById("Original Shop Div");
 
