@@ -1,4 +1,4 @@
-
+var csvHolder = []
 
 function addToTable(tRef, shop, item, weight, colour, odd, itemMap)
 {
@@ -17,6 +17,9 @@ function addToTable(tRef, shop, item, weight, colour, odd, itemMap)
         cell.className = "cell";
     }
 
+    console.log("pusing");
+    csvHolder.push(shop + "," + item + "," + weight + "," + colour);
+
 }
 
 function resetTable(theadRef, tbodyRef)
@@ -30,6 +33,10 @@ function resetTable(theadRef, tbodyRef)
     {
         tbodyRef.removeChild(tbodyRef.lastElementChild);
     }
+
+    // clears the csv holder too
+    console.log("reseting");
+    csvHolder = [];
 }
 
 function addShop(shopName, hashMap, example, onTick)
@@ -42,7 +49,6 @@ function addShop(shopName, hashMap, example, onTick)
     newShopDiv.id = shopName;
     box.id = shopName + ' box';
     label.for = box.id;
-    console.log(label.innerHTML);
     label.innerHTML += shopName;
 
     newShopDiv.hidden = false;
@@ -77,6 +83,9 @@ function outputTable(filePath, theadRef, tbodyRef, shopMap, itemMap)
                 cell.className = "headCell";
             }
 
+            console.log("setting head");
+            csvHolder.push(rows[0][0] + "," + rows[0][1] + "," + rows[0][2] + "," + rows[0][3]);
+
             // for colouring
             odd = true;
             itemMap.clear();
@@ -93,6 +102,8 @@ function outputTable(filePath, theadRef, tbodyRef, shopMap, itemMap)
                     odd = !odd;
                 }
             }
+
+            download();
         })
         .catch(error => 
         {
@@ -140,9 +151,22 @@ window.addEventListener('load', function()
     const shopMap = new Map();
     const itemMap = new Map();
 
+
     setShops(filePath, theadRef, tbodyRef, shopMap, itemMap);
     
     outputTable(filePath, theadRef, tbodyRef, shopMap, itemMap);
 });
 
+function download()
+{
+    const csvString = csvHolder.join("\n");
 
+    console.log(csvString);
+
+    const blob = new Blob([csvString], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+
+    button = document.getElementById("download button");
+    button.setAttribute('href', url);
+    // button.click();
+}
