@@ -1,12 +1,14 @@
 
 
-function addToTable(tRef, shop, item, weight, colour)
+function addToTable(tRef, shop, item, weight, colour, odd, itemMap)
 {
     let row = tRef.insertRow(-1);
     row.className = "tableRow";
     if(odd) {  row.className += " odd"; }
 
     const values = [shop, item, weight, colour];
+
+    itemMap.set(item + weight + colour, "filled");
 
     for(let i = 0; i < 4; i++)
     {
@@ -53,7 +55,7 @@ function addShop(shopName, hashMap, example, onTick)
     });
 }
 
-function outputTable(filePath, theadRef, tbodyRef, shopMap)
+function outputTable(filePath, theadRef, tbodyRef, shopMap, itemMap)
 {
     fetch(filePath)
         .then(response => response.text())
@@ -77,13 +79,17 @@ function outputTable(filePath, theadRef, tbodyRef, shopMap)
 
             // for colouring
             odd = true;
+            itemMap.clear();
+
             // set the rest of the table rows
             for(let i = 1; i < rows.length -1; i++)
             {
                 const currentRow = rows[i];
-                if( document.getElementById(shopMap.get(currentRow[0])).checked )
+                
+                if( document.getElementById(shopMap.get(currentRow[0])).checked && 
+                    itemMap.get(currentRow[1] + currentRow[2] + currentRow[3]) != "filled")
                 {
-                    addToTable(tbodyRef, currentRow[0], currentRow[1], currentRow[2], currentRow[3], odd);
+                    addToTable(tbodyRef, currentRow[0], currentRow[1], currentRow[2], currentRow[3], odd, itemMap);
                     odd = !odd;
                 }
             }
@@ -94,7 +100,7 @@ function outputTable(filePath, theadRef, tbodyRef, shopMap)
         });
 }
 
-function setShops(filePath, shopMap, theadRef, tbodyRef)
+function setShops(filePath, theadRef, tbodyRef, shopMap, itemMap)
 {
     fetch(filePath)
         .then(response => response.text())
@@ -109,12 +115,9 @@ function setShops(filePath, shopMap, theadRef, tbodyRef)
                 if(shopMap.get(shopName) == undefined)
                 {
                     addShop(shopName, shopMap, document.getElementById("OriginalShopDiv"), function()
-                    // { console.log("its working"); });
-                    //*
                     {
-                        outputTable(filePath, theadRef, tbodyRef, shopMap);
+                        outputTable(filePath, theadRef, tbodyRef, shopMap, itemMap);
                     });
-                    //*/
                 }
             }
         })
@@ -131,15 +134,16 @@ window.addEventListener('load', function()
 
     // const exampleBox = document.getElementById("Original Shop Div");
 
-    const filePath = 'assets/ItemsForParty.csv';
+    const filePath = 'assets/ItemsForParty2.csv';
     const tableRef = document.getElementById('mainTable');
     const tbodyRef = tableRef.getElementsByTagName('tbody')[0];
     const theadRef = tableRef.getElementsByTagName('thead')[0];
     const shopMap = new Map();
+    const itemMap = new Map();
 
-    setShops(filePath, shopMap, theadRef, tbodyRef);
+    setShops(filePath, theadRef, tbodyRef, shopMap, itemMap);
     
-    outputTable(filePath, theadRef, tbodyRef, shopMap);
+    outputTable(filePath, theadRef, tbodyRef, shopMap, itemMap);
 });
 
 
