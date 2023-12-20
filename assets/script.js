@@ -166,7 +166,7 @@ function download()
     const blob = new Blob([csvString], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
 
-    button = document.getElementById("download button");
+    button = document.getElementById("downloadButton");
     button.setAttribute('href', url);
     // button.click();
 }

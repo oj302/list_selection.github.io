@@ -13,6 +13,44 @@ body
     height: 100px;
 }
 
+#downloadButton
+{
+    border-radius: 50px;
+    text-align: center;
+    display: inline-block;
+    font-size: 20px;
+    font-family: Helvetica;
+    font-weight: bold;
+    border-width: 3px;
+}
+
+#downloadButton:link
+{
+    color: maroon;
+    text-decoration: none;
+    background-color: white;
+    padding: 10px 15px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    margin-left: 15px;
+    transition: 0.2s;
+    border: 3px solid white;
+}
+
+#downloadButton:hover
+{
+    color: green;
+    background-color: white;
+    padding: 18px 25px;
+    margin-top: 17px;
+    margin-bottom: 17px;
+    margin-left: 5px;
+    transition: 0.2s;
+    border: 3px solid green;
+}
+
+
+
 #logo
 {
     position: absolute;
@@ -55,7 +93,7 @@ body
     font-weight: bold;
     color: orange;
     margin: 15px 15px;
-    transition: 0.2s;
+    transition: 0.3s;
 }
 /* */ 
 
@@ -63,7 +101,7 @@ body
 {
     background-color: orange;
     color: white;
-    transition: 0.2s;
+    transition: 0.3s;
 }
 
 #OriginalShopDiv
